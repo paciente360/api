@@ -79,8 +79,8 @@ A API retorna todos os casos liberados para a empresa.
             url: 'https://api.paciente360.com.br/integration/casos', // URL da api
             type: 'get', //método GET
             headers: {
-                "client_id":"cursosactive", // id do cliente fornecido pelo Paciente 360
-                "client_key":"12f41646537cbfd45b267451c152bbf3" // Chave de acesso fornecida pelo Paciente 360
+                "client_id":"", // id do cliente fornecido pelo Paciente 360
+                "client_key":"" // Chave de acesso fornecida pelo Paciente 360
             },
             dataType: 'json' //Formato de retorno dos dados
         });
