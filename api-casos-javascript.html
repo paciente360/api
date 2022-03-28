@@ -1,0 +1,22 @@
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script type="text/javascript">
+
+    dados(function (callback){
+        console.log(callback);
+    })
+
+    async function dados(callback){
+        var response = await $.ajax({
+            url: 'https://api.paciente360.com.br/integration/casos', // URL da api
+            type: 'get', //método GET
+            headers: {
+                "client_id":"", //id do cliente fornecido pelo Paciente 360
+                "client_key":"" // Chave de acesso fornecida pelo Paciente 360
+            },
+            dataType: 'json' //Formato de retorno dos dados
+        });
+        callback(response);
+    }
+   
+ </script>
