@@ -1,18 +1,15 @@
 Guia de integração - Paciente 360
 =============
 
-- [Introdução](#introdução)
 - [Autenticação](#autenticação)
 - [Casos clinicos](#casos-clinicos)
 - [Webhook](#webhook)
 
-# Introdução
-
-Breve introdução explicando o uso da API
-
 # Autenticação
 
-Breve descrição explicando a autenticação
+- Do lado do cliente acessar o link passando de parâmetro a hash de acesso 
+- Do nosso lado, recebemos a hash e verificamos se ela é válida.
+- Após a verificação da hash, a api pesquisa no banco de dados por um usuário com o e-mail informado e caso seja encontrado realiza o login automático, caso não encontre, efetua o cadastro com os dados informados e realiza o login automático.
 
 ```js
 var data = {
@@ -22,14 +19,11 @@ var data = {
     // Chave de acesso fornecida pelo Paciente 360
     "client_key":"",
 
-    // URL acessada após a autenticação do usuário (Opcional)
-    "url":"",
-
     // Código do caso a ser executado após a autenticação do usuário (Opcional)
-    "curso_id":1000,
+    "curso_id":"",
 
     // URL que o usuário sera redirecionado após finalizar o caso (Opcional)
-    "back_url":""
+    "back_url":"",
 
     // Informações do Usuário
     "user":{
@@ -59,35 +53,31 @@ var hash = CryptoJS.AES.encrypt(JSON.stringify(data), data.client_key).toString(
 // URL de acesso do usuário
 var _url = 'https://api.paciente360.com.br/integration?h='+hash;
 
+// Biblioteca utilizada para criptografia no exemplo acima
+// https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js
+
 ```
 
 # Casos clinicos
 
-A API retorna todos os casos liberados para a empresa.
+API de consulta que retorna todos os casos liberados para a empresa.
 
 ```js
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
-<script type="text/javascript">
-
-    dados(function (callback){
-        console.log(callback);
-    })
-
-    async function dados(callback){
-        var response = await $.ajax({
-            url: 'https://api.paciente360.com.br/integration/casos', // URL da api
-            type: 'get', //método GET
-            headers: {
-                "client_id":"", // id do cliente fornecido pelo Paciente 360
-                "client_key":"" // Chave de acesso fornecida pelo Paciente 360
-            },
-            dataType: 'json' //Formato de retorno dos dados
-        });
+$.ajax({
+    url: 'https://api.paciente360.com.br/integration/casos', // Endpoint da API
+    type: 'GET',
+    dataType: 'json', //Formato de retorno dos dados
+    headers: {
+        "client_id":"", // id do cliente fornecido pelo Paciente 360
+        "client_key":"" // Chave de acesso fornecida pelo Paciente 360
+    },
+    success:function(response){
         callback(response);
     }
-   
- </script>
+});
+
+// No exemplo acima foi utilizada a biblioteca jQuery
+// https://code.jquery.com/jquery-3.5.1.min.js
 ```
 
 # Webhook

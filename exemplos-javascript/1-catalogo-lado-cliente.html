@@ -1,0 +1,99 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+        <style>
+            .casos{
+                margin-top: 30px;
+            }
+
+            .casos .caso{
+                border: solid 1px silver;
+                border-radius: 5px;
+                width: 280px;
+                margin: 5px;
+            }
+
+            .casos .caso img{
+                width: 100%;
+            }
+
+            .casos .caso .btn{
+                margin: 5px;
+            }
+
+            .casos .caso div{
+                margin: 5px;
+            }
+        </style>        
+    </head>
+    <body>
+        <div class="container">
+            <div class="casos row"></div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script>
+            $(function() {
+
+                // Endpoint da API
+                const endpoint = "http://127.0.0.1:3000/integration";
+
+                // id do cliente fornecido pelo Paciente 360
+                const client_id = "sanofi";
+
+                // Chave de acesso fornecida pelo Paciente 360
+                const client_key = "d2f668c0160b7b5f34b3e52cfd06f98b";
+
+                $.ajax({
+                    url: endpoint+'/casos',
+                    type: 'GET',
+                    dataType: 'json',
+                    headers: {
+                        "client_id":client_id, 
+                        "client_key":client_key
+                    },
+                    success:function(casos){
+
+                        function openCaso(caso){
+                            var data = {
+                                "client_id":client_id,
+                                "client_key":client_key,
+                                "curso_id":caso.id,
+                                "back_url":window.location.href,
+                                "user":{
+                                    "name": "Fulano de da Silva",
+                                    "email": "fulano@meusistema.com.br",
+                                    "crm": "123456",
+                                    "crm_uf": "SP",
+                                }
+                            }
+
+                            var hash = CryptoJS.AES.encrypt(JSON.stringify(data), data.client_key).toString();
+                            window.location.href = endpoint+'?h='+hash;
+                        }
+                        
+                        casos.forEach(caso => {
+                            var _caso =$('<div class="caso col-sm-3">');
+
+                            var _btn = $('<button class="btn btn-default">Abrir caso</button>').click(function(){
+                                openCaso(caso);
+                            });
+
+                            _caso.append('<div class="imagem">').append($('<img src="'+caso.imagem+'">'));
+                            _caso.append(_btn)
+                            _caso.append('<div class="titulo">'+caso.titulo+'</div>')
+                            _caso.append('<div class="subtitulo">'+caso.subtitulo+'</div>')
+                            _caso.append('<div class="tag">'+caso.tag+'</div>')
+                            _caso.append('<div class="descricao">'+caso.descricao ? caso.descricao : ''+'</div>')
+                            $('.casos').append(_caso)
+                        });
+
+                    },error:function(err){
+                        console.log(err);
+                    }
+                });
+
+            })
+        </script>
+    </body>
+</html>
