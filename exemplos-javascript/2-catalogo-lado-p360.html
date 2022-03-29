@@ -1,22 +1,42 @@
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container text-center" style="margin-top: 30px;">
+            <button id="btnOpen" class="btn btn-default">Abrir Paciente 360</button>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script>
+            $(function() {
 
-<script type="text/javascript">
+                // id do cliente fornecido pelo Paciente 360
+                const client_id = "CLIENT_ID";
 
-    dados(function (callback){
-        console.log(callback);
-    })
+                // Chave de acesso fornecida pelo Paciente 360
+                const client_key = "CLIENT_KEY";
 
-    async function dados(callback){
-        var response = await $.ajax({
-            url: 'https://api.paciente360.com.br/integration/casos', // URL da api
-            type: 'get', //método GET
-            headers: {
-                "client_id":"", //id do cliente fornecido pelo Paciente 360
-                "client_key":"" // Chave de acesso fornecida pelo Paciente 360
-            },
-            dataType: 'json' //Formato de retorno dos dados
-        });
-        callback(response);
-    }
-   
- </script>
+                // Endpoint da API
+                const endpoint = "https://teste-api.paciente360.com.br/integration";
+
+                $('#btnOpen').click(function(){
+                    var data = {
+                        "client_id":client_id,
+                        "client_key":client_key,
+                        "user":{
+                            "name": "Fulano da Silva",
+                            "email": "fulano@meusistema.com.br",
+                            "crm": "123456",
+                            "crm_uf": "SP",
+                        }
+                    }
+                    var hash = CryptoJS.AES.encrypt(JSON.stringify(data), data.client_key).toString();
+                    window.open(endpoint+'?h='+hash)
+                    // window.location.href = endpoint+'?h='+hash;
+                })
+
+            })
+        </script>
+    </body>
+</html>

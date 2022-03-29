@@ -35,14 +35,14 @@
         <script>
             $(function() {
 
-                // Endpoint da API
-                const endpoint = "http://127.0.0.1:3000/integration";
-
                 // id do cliente fornecido pelo Paciente 360
-                const client_id = "sanofi";
+                const client_id = "CLIENT_ID";
 
                 // Chave de acesso fornecida pelo Paciente 360
-                const client_key = "d2f668c0160b7b5f34b3e52cfd06f98b";
+                const client_key = "CLIENT_KEY";
+
+                // Endpoint da API
+                const endpoint = "https://teste-api.paciente360.com.br/integration";
 
                 $.ajax({
                     url: endpoint+'/casos',
@@ -61,7 +61,7 @@
                                 "curso_id":caso.id,
                                 "back_url":window.location.href,
                                 "user":{
-                                    "name": "Fulano de da Silva",
+                                    "name": "Fulano da Silva",
                                     "email": "fulano@meusistema.com.br",
                                     "crm": "123456",
                                     "crm_uf": "SP",
