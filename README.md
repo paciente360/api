@@ -25,6 +25,12 @@ var data = {
     // URL que o usuário sera redirecionado após finalizar o caso (Opcional)
     "back_url":"",
 
+    // Turma do aluno (Configurável de acordo com o cliente)
+    "client_class":"",
+
+     // Idioma do usuário ["pt-br","es","en"] (Configurável de acordo com o cliente)
+    "client_lang":"",
+
     // Informações do Usuário
     "user":{
         // Nome do usuário (Obrigatório)
@@ -37,13 +43,8 @@ var data = {
         "crm": "",
 
         // CRM UF do médico (Configurável de acordo com o cliente)
-        "crm_uf": "",
+        "crm_uf": ""
 
-        // Turma do aluno (Configurável de acordo com o cliente)
-        "client_class":"",
-
-        // Idioma do usuário ["pt-br","es","en"] (Configurável de acordo com o cliente)
-        "client_lang":""
     }
 }
 
