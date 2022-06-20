@@ -52,6 +52,9 @@ var data = {
 
         // E-mail do usuário (Obrigatório)
         "email": "fulano@google.com.br",
+        
+        // Perfil de Usuário (Não obrigatório, quando não informado sera cadastrado como perfil usuário) (admin,professor,usuario)
+        "role":"usuario",
 
         // CRM do médico (Configurável de acordo com o cliente)
         "crm": "",
